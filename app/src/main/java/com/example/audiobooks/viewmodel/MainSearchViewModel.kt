@@ -1,5 +1,6 @@
 package com.example.myapplication.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +9,7 @@ import com.example.myapplication.retrofit.RetrofitInstance
 import kotlinx.coroutines.*
 
 class MainSearchViewModel : ViewModel() {
-    private val podcastResponse = MutableLiveData<MutableList<Podcasts>>()
+    private val podcastResponse = MutableLiveData<Podcasts>()
     private var handlejob: Job? = null
     val loading = MutableLiveData<Boolean>()
 
@@ -27,22 +28,23 @@ class MainSearchViewModel : ViewModel() {
     fun getUserDetails(searchQuery: String) {
         loading.value = true
 
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+       handlejob = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val podcastDetails = RetrofitInstance.getApiService().getPodcastList(searchQuery)
-            withContext(Dispatchers.Main) {
+            val podcastDetails = RetrofitInstance.getApiService().getPodcastList("Romantic")
+           Log.d("jsondataaaaa","${podcastDetails.body()}")
+           withContext(Dispatchers.Main) {
                 if (podcastDetails.isSuccessful) {
                     podcastResponse.postValue(podcastDetails.body())
                 } else {
-                    
+                     Log.d("Error","APIFAILURE")
                 }
             }
 
         }
     }
 
-    fun getUserDetails(): MutableList<Podcasts>? {
-        return podcastResponse.value
+    fun getUserDetails(): MutableLiveData<Podcasts> {
+        return podcastResponse
     }
 
 }

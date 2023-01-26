@@ -12,7 +12,7 @@ data class Result(
     val itunes_id: Int,
     val link: String,
     val listennotes_url: String,
-    val podcast: Podcast,
+    val podcast:Podcast,
     val pub_date_ms: Long,
     val rss: String,
     val thumbnail: String,
