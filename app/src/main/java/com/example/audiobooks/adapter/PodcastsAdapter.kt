@@ -1,6 +1,5 @@
 package com.example.audiobooks.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.audiobooks.R
 import com.example.audiobooks.model.PodcastFavourite
-import com.example.audiobooks.model.Podcasts
-import com.example.audiobooks.model.Result;
 
 class PodcastsAdapter : RecyclerView.Adapter<PodcastsAdapter.MyViewHolder>() {
 
@@ -42,20 +39,13 @@ class PodcastsAdapter : RecyclerView.Adapter<PodcastsAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.tvName.text = podcastList[position].title_highlighted
         holder.tvAuthor.text = podcastList[position].publisher_highlighted
-        holder.tvfavourite.visibility = if(!podcastList[position].is_favourite) View.VISIBLE else View.GONE
+        holder.tvfavourite.visibility =
+            if (podcastList[position].is_favourite) View.VISIBLE else View.GONE
         Glide.with(holder.itemView.context).load(podcastList[position].image).into(holder.imageView)
-//        holder.itemView.setOnClickListener{
-//            onItemClick.onClickPodcast(podcastList[position])
-//        }
     }
 
     fun setProductListData(podcastResult: List<PodcastFavourite>) {
         podcastList = podcastResult
     }
-
-//    interface onItemClick{
-//        fun onClickPodcast(podcastFavourite:PodcastFavourite)
-//    }
-
 }
 

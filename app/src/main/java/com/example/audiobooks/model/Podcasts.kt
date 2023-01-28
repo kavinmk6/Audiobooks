@@ -1,9 +1,6 @@
 package com.example.audiobooks.model
 
+//I have included only Result variable, because we dont need any other variables as per the given requirements.
 data class Podcasts(
-    val count: Int,
-    val next_offset: Int,
-    val results: List<Result>,
-    val took: Double,
-    val total: Int
+    val results: List<Result>
 )

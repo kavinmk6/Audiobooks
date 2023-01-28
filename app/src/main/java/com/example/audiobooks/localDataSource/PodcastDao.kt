@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.audiobooks.model.PodcastFavourite
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 @Dao
 interface PodcastDao {
@@ -15,8 +16,8 @@ interface PodcastDao {
     @Update
     suspend fun updatePodcast(podcastFavourite: PodcastFavourite)
 
-    @Query("UPDATE podcast_table SET isFavoourite=:isFavourite WHERE podcastTitle = :podCastName")
-    fun updatePodcastFavourite(isFavourite:Boolean,podCastName:String)
+    @Query("UPDATE podcast_table SET isFavoourite=:isFavourite WHERE id = :id")
+    fun updatePodcastFavourite(isFavourite:Boolean,id:Int)
 
     @Delete
     suspend fun deletePodcast(podcastFavourite: PodcastFavourite)

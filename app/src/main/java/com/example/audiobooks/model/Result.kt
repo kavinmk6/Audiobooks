@@ -1,5 +1,6 @@
 package com.example.audiobooks.model
 
+////I have included all the variables eventhough we need only Podcast variable, because we dont need any other variables as per the given requirements.
 data class Result(
     val audio: String,
     val audio_length_sec: Int,

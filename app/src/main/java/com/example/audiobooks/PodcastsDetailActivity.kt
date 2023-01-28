@@ -16,8 +16,8 @@ import com.example.myapplication.viewmodel.MainSearchViewModelFactory
 class PodcastsDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: PodCastDetailViewModel
-    private lateinit var podcastsFavourite: PodcastFavourite
     private lateinit var binding: ActivityPodcastsDetailBinding
+    private lateinit var podcastFavourite: PodcastFavourite
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,28 +28,44 @@ class PodcastsDetailActivity : AppCompatActivity() {
         val apiService = RetrofitInstance.getApiService()
         val repository = MainActivityRepository(podcastDao, apiService)
 
-        viewModel =
-            ViewModelProvider(this@PodcastsDetailActivity, MainSearchViewModelFactory(repository)).get(
-                PodCastDetailViewModel::class.java
-            )
+        viewModel = ViewModelProvider(
+            this@PodcastsDetailActivity, MainSearchViewModelFactory(repository)
+        ).get(
+            PodCastDetailViewModel::class.java
+        )
 
         val intent = getIntent()
-        val podcastFavourite = intent.getSerializableExtra("PodcastDetail") as PodcastFavourite
+        podcastFavourite = intent.getSerializableExtra("PodcastDetail") as PodcastFavourite
         binding.tvPodcastName.text = podcastFavourite.title_highlighted
         binding.tvPodcastAuthor.text = podcastFavourite.publisher_highlighted
         Glide.with(this).load(podcastFavourite.image).into(binding.imgViewPodcast)
         binding.tvPodcastFavourite.setOnClickListener {
             if (!podcastFavourite.is_favourite) {
-                binding.tvPodcastFavourite.text = getString(R.string.favourited)
-                binding.tvPodcastFavourite.setBackgroundColor(Color.DKGRAY)
-                viewModel.updatePodcastFavourite(true, podcastFavourite.title_highlighted)
+                doFavourite()
             } else {
-                binding.tvPodcastFavourite.text = getString(R.string.favourite)
-                binding.tvPodcastFavourite.setBackgroundColor(Color.GREEN)
-                viewModel.updatePodcastFavourite(false, podcastFavourite.title_highlighted)
+                undoFavourite()
             }
         }
+    }
 
+    fun doFavourite() {
+        binding.tvPodcastFavourite.text = getString(R.string.favourited)
+        binding.tvPodcastFavourite.setBackgroundColor(Color.DKGRAY)
+        viewModel.updatePodcastFavourite(true, podcastFavourite.id)
+    }
 
+    fun undoFavourite() {
+        binding.tvPodcastFavourite.text = getString(R.string.favourite)
+        binding.tvPodcastFavourite.setBackgroundColor(Color.GREEN)
+        viewModel.updatePodcastFavourite(false, podcastFavourite.id)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (podcastFavourite.is_favourite) {
+            doFavourite()
+        } else {
+            undoFavourite()
+        }
     }
 }

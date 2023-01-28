@@ -13,25 +13,31 @@ import com.example.myapplication.retrofit.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class MainActivityRepository(val podcastDao: PodcastDao, val apiService: ApiService) {
 
 
-    suspend fun fetchDataFromApi() {
-        if (podcastDao.getAllPodcast().isEmpty()) {
-            val podcastResults = apiService.getPodcastList("Romantic")
-            val results = podcastResults.body()?.results
-            if (results != null) {
-                for (podcast in results) {
-                    val p = PodcastFavourite(
-                        podcast.podcast.title_original,
-                        podcast.podcast.publisher_highlighted,
-                        podcast.image,
-                        false
-                    )
-                    podcastDao.insertPodcast(p)
+    suspend fun fetchDataFromApi(searchQuery: String) {
+
+        try {
+            if (podcastDao.getAllPodcast().isEmpty()) {
+                val podcastResults = apiService.getPodcastList(searchQuery)
+                val results = podcastResults.body()?.results
+                if (results != null) {
+                    for (result in results) {
+                        val p = PodcastFavourite(
+                            result.podcast.title_original,
+                            result.podcast.publisher_original,
+                            result.podcast.image,
+                            false
+                        )
+                        podcastDao.insertPodcast(p)
+                    }
                 }
             }
+        } catch (e: Exception) {
+            Log.d("stacktraceeee", "${e.localizedMessage}")
         }
     }
 

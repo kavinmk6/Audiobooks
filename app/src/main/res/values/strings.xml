@@ -3,4 +3,5 @@
     <string name="podcasts">PODCASTS</string>
     <string name="favourited">Favourited</string>
     <string name="favourite">Favourite</string>
+    <string name="api_error">API Error...</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,12 +12,13 @@ import com.example.audiobooks.adapter.PodcastsAdapter
 import com.example.audiobooks.databinding.ActivityMainBinding
 import com.example.audiobooks.localDataSource.PodcastDatabase
 import com.example.audiobooks.model.PodcastFavourite
+import com.example.audiobooks.model.Resource
 import com.example.audiobooks.repositories.MainActivityRepository
 import com.example.myapplication.retrofit.RetrofitInstance
 import com.example.myapplication.viewmodel.MainSearchViewModel
 import com.example.myapplication.viewmodel.MainSearchViewModelFactory
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainSearchViewModel
     private lateinit var binding: ActivityMainBinding
@@ -35,8 +37,6 @@ class MainActivity : AppCompatActivity(){
                 MainSearchViewModel::class.java
             )
 
-        val lists = viewModel.getUserDetails("romantic")
-
         val adapter = PodcastsAdapter()
         binding.recyclerPodcasts.layoutManager = LinearLayoutManager(this)
         binding.recyclerPodcasts.adapter = adapter
@@ -48,13 +48,30 @@ class MainActivity : AppCompatActivity(){
         }
 
         viewModel.getUserDetails().observe(this) {
-            val n = it.get(0).title_highlighted
-            Log.d("DataMAinActivity", "name,{$n}")
-            adapter.setProductListData(it)
-            adapter.notifyDataSetChanged()
-            Toast.makeText(this, it.get(0).title_highlighted, Toast.LENGTH_LONG).show()
-        }
 
-        Log.d("datassss", "{${lists.toString()}")
+            when (it) {
+                is Resource.Success -> {
+                    it.data?.let { it1 -> adapter.setProductListData(it1) }
+                    adapter.notifyDataSetChanged()
+
+                }
+                is Resource.Error -> {
+                    binding.tvApiError.visibility = View.VISIBLE
+                }
+                is Resource.Loading -> {
+                    if (it.isLoading == true) {
+                        binding.progressBar.visibility = View.VISIBLE
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                    }
+                }
+            }
+
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getUserDetails("romantic")
     }
 }
