@@ -24,3 +24,15 @@ PodcastAdapter class -> Handles displaying all the Podcasts in a list. As we are
 (Second Screen) PodcastDetailActivity -> when the user interacts with the favourite button in this activity, it will communicate with its ViewModel class called PodcastDetailViewModel.
 This PodcastDetailViewModel -> will communicate with its repository class called MainActivityRepository (YES, WE ARE USING SAME REPOSITORY FOR BOTH OF THE ACTIVITY AS WE DON'T HAVE ANY STRONG DEPENDECY AND TO MKAE IT SIMPLE) -> This MainActivityRepository will comunicate with PodcastDao interface -> this interface will invoke a method called update, which will update the Favourite attribute associated with the id value as either true or false.
 When the user presses back button from PodcastDetailActivity, the app redirect back to MainActivity and refresh's the recyclerview and now you can see a new textfield called FAVOURITED in the particular podcast.
+
+API OPERATIONS ARE HANDLED WITH THE HELP OF COROUTINES.
+
+
+NOTE: I HAVE STATICALLY ENCODED THE SEARCH TERM AS "ROMANTIC" IN THE API, BECAUSE THE API GIVES SAME DATA FOR ALL SEARCH TERM. SO INORDER TO SAVE TIME, I HAVE NOT GIVEN EDITEXT TO GET INPUT FROM THE USER AND DO THE API CALL BASED ON THAT INPUT. 
+I HAVE ALSO GIVEN COMMENT LINES IN THE PROJECT FOR BETTER UNDERSTANDING.
+
+<img width="413" alt="Screen Shot 2023-01-28 at 5 02 02 AM" src="https://user-images.githubusercontent.com/22996236/215260292-e60aace8-f4aa-4cb0-a313-774217a67c7c.png">
+<img width="413" alt="Screen Shot 2023-01-28 at 5 02 11 AM" src="https://user-images.githubusercontent.com/22996236/215260315-cd245665-73f9-439b-8266-206205938bc1.png">
+<img width="413" alt="Screen Shot 2023-01-28 at 5 02 18 AM" src="https://user-images.githubusercontent.com/22996236/215260321-dc46313f-534f-4cde-b523-20d48e243f64.png">
+<img width="413" alt="Screen Shot 2023-01-28 at 5 02 25 AM" src="https://user-images.githubusercontent.com/22996236/215260330-1a8ba90e-c871-4f09-811f-d74984fdc160.png">
+<img width="413" alt="Screen Shot 2023-01-28 at 5 02 30 AM" src="https://user-images.githubusercontent.com/22996236/215260335-bc1a4856-c779-4087-ac10-f0ffed806c2a.png">
