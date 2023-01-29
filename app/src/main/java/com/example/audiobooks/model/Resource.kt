@@ -13,6 +13,6 @@ sealed class Resource<T>(
     class Error<T>(errorMessage: String) : Resource<T>(message = errorMessage)
 
     // class, just before making an api call
-    class Loading<T>(b: Boolean) : Resource<T>()
+    class Loading <T>(isLoading: Boolean): Resource<T>(isLoading = isLoading)
 
 }

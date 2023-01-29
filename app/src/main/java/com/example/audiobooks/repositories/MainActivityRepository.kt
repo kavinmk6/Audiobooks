@@ -1,19 +1,9 @@
 package com.example.audiobooks.repositories
 
-import android.app.Application
-import android.content.Context
-import android.provider.ContactsContract
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.example.audiobooks.localDataSource.PodcastDao
-import com.example.audiobooks.localDataSource.PodcastDatabase
 import com.example.audiobooks.model.PodcastFavourite
 import com.example.myapplication.retrofit.ApiService
-import com.example.myapplication.retrofit.RetrofitInstance
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
-import retrofit2.Response
 
 class MainActivityRepository(val podcastDao: PodcastDao, val apiService: ApiService) {
 

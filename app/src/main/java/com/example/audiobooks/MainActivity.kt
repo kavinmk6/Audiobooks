@@ -1,17 +1,14 @@
 package com.example.audiobooks
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.audiobooks.adapter.PodcastsAdapter
 import com.example.audiobooks.databinding.ActivityMainBinding
 import com.example.audiobooks.localDataSource.PodcastDatabase
-import com.example.audiobooks.model.PodcastFavourite
 import com.example.audiobooks.model.Resource
 import com.example.audiobooks.repositories.MainActivityRepository
 import com.example.myapplication.retrofit.RetrofitInstance
@@ -51,18 +48,28 @@ class MainActivity : AppCompatActivity() {
 
             when (it) {
                 is Resource.Success -> {
+                    binding.apply {
+                        progressBar.visibility = View.GONE
+                        tvApiError.visibility = View.GONE
+                        recyclerPodcasts.visibility = View.VISIBLE
+
+                    }
                     it.data?.let { it1 -> adapter.setProductListData(it1) }
                     adapter.notifyDataSetChanged()
 
                 }
                 is Resource.Error -> {
-                    binding.tvApiError.visibility = View.VISIBLE
+                    binding.apply {
+                        progressBar.visibility = View.GONE
+                        recyclerPodcasts.visibility = View.GONE
+                        tvApiError.visibility = View.VISIBLE
+                    }
                 }
                 is Resource.Loading -> {
-                    if (it.isLoading == true) {
-                        binding.progressBar.visibility = View.VISIBLE
-                    } else {
-                        binding.progressBar.visibility = View.GONE
+                    binding.apply {
+                        tvApiError.visibility = View.GONE
+                        recyclerPodcasts.visibility = View.GONE
+                        progressBar.visibility = View.VISIBLE
                     }
                 }
             }
