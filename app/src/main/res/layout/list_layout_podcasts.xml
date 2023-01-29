@@ -34,6 +34,7 @@
         android:layout_marginTop="4dp"
         android:textColor="@color/black"
         app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgViewPodcast"
         app:layout_constraintTop_toBottomOf="@+id/tvPodcastName"
         tools:text="Yuvan Sankar Raja" />
