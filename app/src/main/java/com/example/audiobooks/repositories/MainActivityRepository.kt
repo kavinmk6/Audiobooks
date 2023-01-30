@@ -19,7 +19,8 @@ class MainActivityRepository(val podcastDao: PodcastDao, val apiService: ApiServ
                         val p = PodcastFavourite(
                             result.podcast.title_original,
                             result.podcast.publisher_original,
-                            result.podcast.image,
+                            result.podcast.thumbnail,
+                            result.description_original,
                             false
                         )
                         podcastDao.insertPodcast(p)

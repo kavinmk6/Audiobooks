@@ -41,7 +41,7 @@ class PodcastsAdapter : RecyclerView.Adapter<PodcastsAdapter.MyViewHolder>() {
         holder.tvAuthor.text = podcastList[position].publisher_highlighted
         holder.tvfavourite.visibility =
             if (podcastList[position].is_favourite) View.VISIBLE else View.GONE
-        Glide.with(holder.itemView.context).load(podcastList[position].image).into(holder.imageView)
+        Glide.with(holder.itemView.context).load(podcastList[position].thumbnail).into(holder.imageView)
     }
 
     fun setProductListData(podcastResult: List<PodcastFavourite>) {

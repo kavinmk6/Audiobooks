@@ -27,7 +27,7 @@ class MainSearchViewModel(private val repository: MainActivityRepository) : View
         podcastResponse.postValue(Resource.Loading(true))
         handlejob = viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             repository.fetchDataFromApi(searchQuery)
-            Resource.Loading<Boolean>(true)
+//            Resource.Loading<Boolean>(false)
 
             withContext(Dispatchers.Main) {
                 val podcastFlow = repository.getPodcastFromLocal()

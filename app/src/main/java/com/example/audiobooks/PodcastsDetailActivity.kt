@@ -38,7 +38,8 @@ class PodcastsDetailActivity : AppCompatActivity() {
         podcastFavourite = intent.getSerializableExtra("PodcastDetail") as PodcastFavourite
         binding.tvPodcastName.text = podcastFavourite.title_highlighted
         binding.tvPodcastAuthor.text = podcastFavourite.publisher_highlighted
-        Glide.with(this).load(podcastFavourite.image).into(binding.imgViewPodcast)
+        binding.tvPodcastDescription.text = podcastFavourite.description_highlighted
+        Glide.with(this).load(podcastFavourite.thumbnail).into(binding.imgViewPodcast)
         binding.tvPodcastFavourite.setOnClickListener {
             if (!podcastFavourite.is_favourite) {
                 doFavourite()
